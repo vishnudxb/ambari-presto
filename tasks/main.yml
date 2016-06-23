@@ -1,0 +1,35 @@
+---
+  - name: Install Presto using Ambari service.
+    hosts: localhost
+    become: true
+    vars:
+      presto_ambari_path: /var/lib/ambari-server/resources/stacks/HDP/2.4/services/PRESTO
+      presto_ambari_url: https://github.com/prestodb/ambari-presto-service/releases/download/v1.0/ambari-presto-1.0.tar.gz
+      presto_ambari_tar: ambari-presto-1.0.tar.gz
+    tasks:
+
+      - name: create forlder for presto-ambari
+        file: dest={{presto_ambari_path}} state=directory
+
+      - name: fetch presto-ambari packages
+        get_url:
+          url: '{{presto_ambari_url}}'
+          dest: /tmp
+
+      - name: unpack presto-ambari packages
+        shell: tar xvfz /tmp/{{presto_ambari_tar}}
+        args:
+          chdir: '{{presto_ambari_path}}'
+
+      - name: move files to one level up
+        shell: mv ambari-presto-1.0/* .
+        args:
+          chdir: '{{presto_ambari_path}}'
+
+      - name: remove unnecessary folder
+        file: dest='{{presto_ambari_path}}'/ambari-presto-1.0 state=absent
+
+      - name: fix permissions
+        shell: chmod -R +x *
+        args:
+          chdir: '{{presto_ambari_path}}'

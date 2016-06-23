@@ -1,0 +1,25 @@
+galaxy_info:
+  author: Vishnu Nair
+  description: Ansible repo for setting up Presto using Ambari Service.
+  company: vishnudxb.me
+
+  license: MIT
+
+  min_ansible_version: 1.8
+
+
+  platforms:
+  - name: all
+    versions:
+    - all
+
+
+  galaxy_tags:
+    - hadoop
+    - hortonworks
+    - ambari
+    - presto
+    - prestodb
+
+
+dependencies: []
