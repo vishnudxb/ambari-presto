@@ -17,19 +17,7 @@
           dest: /tmp
 
       - name: unpack presto-ambari packages
-        shell: tar xvfz /tmp/{{presto_ambari_tar}}
-        args:
-          chdir: '{{presto_ambari_path}}'
-
-      - name: move files to one level up
-        shell: mv ambari-presto-1.0/* .
-        args:
-          chdir: '{{presto_ambari_path}}'
-
-      - name: remove unnecessary folder
-        file: dest='{{presto_ambari_path}}'/ambari-presto-1.0 state=absent
+        shell: tar xfz /tmp/{{presto_ambari_tar}} -C '{{presto_ambari_path}}' --strip-components=1
 
       - name: fix permissions
-        shell: chmod -R +x *
-        args:
-          chdir: '{{presto_ambari_path}}'
+        shell: chmod -R +x '{{presto_ambari_path}}'
